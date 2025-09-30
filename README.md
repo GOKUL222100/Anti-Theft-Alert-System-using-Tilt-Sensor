@@ -9,7 +9,8 @@
 	Tilt sensor(SW200D)
 
 ## Circuit Diagram:
- 
+ <img width="719" height="669" alt="image" src="https://github.com/user-attachments/assets/ffdb6b45-fcb3-4af2-888b-76a407a8e540" />
+
 ## Theory :
  The Arduino Uno is powered by the ATmega328P, an 8-bit microcontroller that runs at 16 MHz. It has 32 KB of flash memory, 2 KB of SRAM, and 1 KB of EEPROM. The board has 14 digital I/O pins (of which 6 can be used as PWM outputs) and 6 analog input pins. These pins allow the board to interface with various sensors, actuators, and other devices.The Arduino Uno can be powered via a USB connection or an external power supply. The board has a built-in voltage regulator to manage power from 7 to 12 volts.
 The board is programmable using the Arduino IDE (Integrated Development Environment), which supports a simplified version of C/C++. The code, known as a "sketch," is uploaded to the board via a USB connection. The Uno has a USB-B port, which is used for communication with a computer. The USB connection also powers the board when connected. The board includes a reset button that restarts the microcontroller, useful during programming and troubleshooting. The In-Circuit Serial Programming (ICSP) header allows for low-level programming of the microcontroller or firmware updates. The Uno has a built-in LED on pin 13, commonly used for simple tests and debugging.
@@ -46,12 +47,47 @@ Step 7: Save Your Work
 •	Save the Circuit: Click "Save" to keep your circuit design and code for future use.
 
 ## Code:
+// Anti-Theft Alert System using Tilt Sensor + Buzzer + LED
 
+const int tiltSensor = 2;   // Tilt sensor connected to D2
+const int buzzer = 7;       // Buzzer connected to D7
+const int led = 8;          // LED connected to D8
+
+void setup() {
+  pinMode(tiltSensor, INPUT_PULLUP);  // Internal pull-up, tilt sensor → GND when tilted
+  pinMode(buzzer, OUTPUT);
+  pinMode(led, OUTPUT);
+
+  Serial.begin(9600);
+  Serial.println("Anti-Theft Alert System Ready");
+}
+
+void loop() {
+  int tiltState = digitalRead(tiltSensor);
+
+  if (tiltState == LOW) {   // Tilt detected
+    tone(buzzer, 1000);         // Play 1000 Hz tone (1kHz beep)
+    digitalWrite(led, HIGH);    // Turn LED ON
+    Serial.println("Tilt Detected - Possible Theft!");
+    delay(200);
+    tone(buzzer, 2000);         // Change to 2000 Hz tone (higher pitch)
+    delay(200);
+  } else {
+    noTone(buzzer);             // Stop sound
+    digitalWrite(led, LOW);     // Turn LED OFF
+  }
+
+  delay(100);
+}
 
 
 ## Output:
 
  
+
+https://github.com/user-attachments/assets/71b75e1d-288b-4221-b80f-481d8a707145
+
+
 
 
 ## Result:
